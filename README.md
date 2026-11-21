@@ -13,3 +13,8 @@
    `_name = "prestamo.prestamo"` crea un modelo y una tabla nueva en PostgreSQL, mientras que `_inherit = ["mail.thread"]` incorpora de forma abstracta (herencia de mixin) los campos, métodos y funcionalidades del chatter (seguidores, mensajes y registro de auditoría) sin modificar el modelo original `mail.thread`.
 2. **¿Qué hace `tracking=True` en el campo `state`?**
    Registra automáticamente en el chatter cada cambio de valor del estado del préstamo, indicando el usuario, la fecha/hora y el estado anterior y nuevo.
+### Paso 3. Equipos del préstamo
+1. **En `fields.One2many("prestamo.linea", "prestamo_id")`, ¿qué indica cada parámetro?**
+   El primer parámetro (`"prestamo.linea"`) indica el modelo hijo al que apunta la relación, y el segundo (`"prestamo_id"`) indica el campo `Many2one` en el modelo hijo que almacena la referencia hacia el registro padre (`prestamo.prestamo`).
+2. **¿Qué pasa con las líneas cuando se borra un préstamo? ¿Qué parte del código lo define?**
+   Se eliminan automáticamente todas las líneas asociadas a ese préstamo. Esto lo define el atributo `ondelete="cascade"` en el campo `prestamo_id` del modelo `prestamo.linea`.

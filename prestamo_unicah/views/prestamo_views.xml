@@ -4,7 +4,7 @@
         <field name="name">prestamo.prestamo.list</field>
         <field name="model">prestamo.prestamo</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-danger="state == 'atrasado'" decoration-muted="state == 'devuelto'">
                 <field name="name"/>
                 <field name="partner_id"/>
                 <field name="fecha_prestamo"/>
@@ -25,6 +25,8 @@
                     <button name="action_devolver" string="Devolver" type="object"
                             class="btn-primary"
                             invisible="state not in ('prestado', 'atrasado')"/>
+                    <button name="action_marcar_atrasado" string="Marcar atrasado"
+                            type="object" invisible="state != 'prestado'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="borrador,prestado,devuelto"/>
                 </header>

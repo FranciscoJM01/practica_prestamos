@@ -9,6 +9,7 @@
                 <field name="name"/>
                 <field name="categoria"/>
                 <field name="estado"/>
+                <field name="veces_prestado"/>
             </list>
         </field>
     </record>
@@ -18,15 +19,23 @@
         <field name="model">prestamo.equipo</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_mantenimiento" string="Enviar a mantenimiento"
+                            type="object" invisible="estado != 'disponible'"/>
+                    <button name="action_disponible" string="Marcar disponible"
+                            type="object" class="btn-primary"
+                            invisible="estado != 'mantenimiento'"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="name"/>
-                        </group>
-                        <group>
                             <field name="codigo"/>
                             <field name="categoria"/>
+                        </group>
+                        <group>
                             <field name="estado"/>
+                            <field name="veces_prestado"/>
                             <field name="active"/>
                         </group>
                     </group>
@@ -46,6 +55,7 @@
                         <field name="name" class="fw-bold"/>
                         <div>Código: <field name="codigo"/></div>
                         <div>Categoría: <field name="categoria"/></div>
+                        <div>Veces prestado: <field name="veces_prestado"/></div>
                     </t>
                 </templates>
             </kanban>

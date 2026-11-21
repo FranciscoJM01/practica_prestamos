@@ -28,3 +28,8 @@
    Porque el filtro (`domain`) solo actúa al momento de seleccionar el equipo en el formulario. Si el préstamo queda en `Borrador` y mientras tanto otro usuario presta ese equipo o lo envía a mantenimiento, al pulsar `Prestar` más tarde el equipo ya no estaría disponible; el TODO 5 evita prestar un equipo ocupado.
 2. **¿En qué momento se ejecuta un método con `@api.constrains`? ¿Y la validación de `action_prestar`?**
    `@api.constrains` se ejecuta automáticamente cada vez que se crea o modifica y guarda un registro en la base de datos (`create` / `write`). La validación dentro de `action_prestar` se ejecuta únicamente cuando se invoca dicha acción (por ejemplo, al hacer clic en el botón **Prestar**).
+### Paso 6. Contacto, kanban y búsqueda
+1. **¿Qué pasa si arrastra una tarjeta del kanban a otra columna? ¿Por qué?**
+   La tarjeta se mueve de columna y actualiza automáticamente el campo `estado` del equipo en la base de datos, porque la vista `<kanban>` tiene configurado `default_group_by="estado"` sobre un campo `Selection` editable.
+2. **El campo `prestamo_ids` se agregó a `res.partner`. ¿Se crea una columna nueva en la tabla de contactos? Explique.**
+   No se crea ninguna columna en `res_partner`. Los campos `One2many` son relaciones inversas virtuales que consultan dinámicamente la clave foránea `partner_id` almacenada en la tabla `prestamo_prestamo`.

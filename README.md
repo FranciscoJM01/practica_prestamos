@@ -23,3 +23,8 @@
    Porque ocultar un botón en XML solo restringe la interfaz visual; un usuario o llamada externa vía RPC/API podría invocar directamente el método Python. Validar el estado en el servidor garantiza la integridad de la lógica de negocio sin importar desde dónde se ejecute.
 2. **¿Qué hace `prestamo.linea_ids.equipo_id.write(...)`? ¿Por qué no hace falta un `for` para cada equipo?**
    Recorre la relación en memoria para obtener un *recordset* con todos los equipos de las líneas del préstamo y ejecuta una actualización masiva (`UPDATE`) sobre todos ellos en una sola operación ORM, ya que en Odoo los recordsets son colecciones vectorizadas.
+### Paso 5. Reglas del préstamo
+1. **El campo `equipo_id` ya filtra los equipos disponibles. ¿Por qué hace falta el TODO 5?**
+   Porque el filtro (`domain`) solo actúa al momento de seleccionar el equipo en el formulario. Si el préstamo queda en `Borrador` y mientras tanto otro usuario presta ese equipo o lo envía a mantenimiento, al pulsar `Prestar` más tarde el equipo ya no estaría disponible; el TODO 5 evita prestar un equipo ocupado.
+2. **¿En qué momento se ejecuta un método con `@api.constrains`? ¿Y la validación de `action_prestar`?**
+   `@api.constrains` se ejecuta automáticamente cada vez que se crea o modifica y guarda un registro en la base de datos (`create` / `write`). La validación dentro de `action_prestar` se ejecuta únicamente cuando se invoca dicha acción (por ejemplo, al hacer clic en el botón **Prestar**).
